@@ -62,28 +62,14 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          padding: EdgeInsets.only(bottom: 30),
-          //background image
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(
-                  "../../lib/assets/images/signup.png",
-                ),
-                //make the image go up the register
-
-                //top right
-                alignment: Alignment.topRight,
-                //width
-                fit: BoxFit.fitWidth),
-          ),
+        body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               //center
 
               Container(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
                 child: Row(
                   children: const [
                     Text(

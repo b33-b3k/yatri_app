@@ -39,12 +39,14 @@ Widget getLandingPage() {
         // show a loading indicator while we wait for the authentication state to initialize
         return const CircularProgressIndicator();
       }
+
       if (snapshot.hasData) {
         // user is logged in, display home page
-        return MapApp();
+
+        return SplashScreen();
       } else {
         // user is not logged in, display sign-up page
-        return MapApp();
+        return SignUp();
       }
     },
   );
@@ -99,7 +101,7 @@ Future<void> main() async {
       ),
       colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
     ),
-    home: MapApp(),
+    home: getLandingPage(),
     routes: {
       '/mapApp': (context) => MapApp(),
       '/forgotPass': (context) => const ForgotPass(),
