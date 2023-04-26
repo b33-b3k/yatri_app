@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as loc;
 import 'package:permission_handler/permission_handler.dart';
 
@@ -59,8 +61,9 @@ class _MapAppState extends State<MapApp> {
                   itemCount: snapshot.data?.docs.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title:
-                          Text(snapshot.data!.docs[index]['name'].toString()),
+                      title: Text("Bus 204"
+                          // snapshot.data!.docs[index]['name'].toString()
+                          ),
                       subtitle: Row(
                         children: [
                           Text(snapshot.data!.docs[index]['latitude']

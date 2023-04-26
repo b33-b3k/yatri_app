@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:yatri_app/components/tripHistory.dart';
 import 'package:yatri_app/screens/auth/homepage.dart';
 import 'package:yatri_app/screens/auth/login.dart';
+import 'package:yatri_app/screens/mymap.dart';
 import 'package:yatri_app/screens/profile.dart';
 import 'package:yatri_app/screens/auth/register.dart';
 import 'package:yatri_app/screens/splashscreen.dart';
@@ -21,7 +22,8 @@ import '/screens/auth/forgotpass.dart';
 import '/screens/auth/verify.dart';
 import '/components/googleSignIn.dart';
 
-final user = FirebaseAuth.instance.currentUser;
+final auth = FirebaseAuth.instance;
+final user = auth.currentUser;
 
 final emailtext = user?.email;
 var emailController = TextEditingController();
@@ -39,11 +41,15 @@ Widget getLandingPage() {
         // show a loading indicator while we wait for the authentication state to initialize
         return const CircularProgressIndicator();
       }
+      //welcome page but only for once
+      if (snapshot.connectionState == ConnectionState.none) {
+        return const WelcomePage();
+      }
 
       if (snapshot.hasData) {
         // user is logged in, display home page
 
-        return SplashScreen();
+        return HomePage();
       } else {
         // user is not logged in, display sign-up page
         return SignUp();

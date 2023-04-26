@@ -72,7 +72,8 @@ class DefaultFirebaseOptions {
     projectId: 'saha-yatri-fef25',
     databaseURL: 'https://saha-yatri-fef25-default-rtdb.firebaseio.com',
     storageBucket: 'saha-yatri-fef25.appspot.com',
-    iosClientId: '231470397469-sel1rhl01vcaa66nbf34drttrlensfad.apps.googleusercontent.com',
+    iosClientId:
+        '231470397469-sel1rhl01vcaa66nbf34drttrlensfad.apps.googleusercontent.com',
     iosBundleId: 'com.example.yatriApp',
   );
 }

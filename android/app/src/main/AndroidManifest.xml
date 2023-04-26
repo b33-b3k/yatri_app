@@ -35,14 +35,11 @@
                  to determine the Window background behind the Flutter UI. 
                  //api key here below
                  -->
-            <meta-data
-              
-              android:name= "com.google.android.geo.API_KEY"
-               android:value=""
-
-
-              />
                <!-- api key-->
+
+
+               
+          
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -53,5 +50,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+            <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyAwD52k5H4WVu7VM4WKWbFdmaAEGIt2-Tw"/>
     </application>
 </manifest>

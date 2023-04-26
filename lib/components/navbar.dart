@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
 import 'package:yatri_app/components/appBar.dart';
 import 'package:yatri_app/components/tripHistory.dart';
+import 'package:yatri_app/screens/allroutes.dart';
 import 'package:yatri_app/screens/mapApp.dart';
+import 'package:yatri_app/screens/mymap.dart';
 
 class BottomBarPage extends StatefulWidget {
   const BottomBarPage({super.key});
@@ -31,18 +34,14 @@ class _BottomBarPageState extends State<BottomBarPage> {
         },
         controller: pageController,
         children: <Widget>[
+          Center(child: MyApp()),
           Center(
-            child: MapApp(),
-          ),
-          Center(
-            child: Text('No new notifications'),
+            child: RootPage(),
           ),
           Center(
             child: TripHistory(),
           ),
-          Center(
-            child: Text('Message'),
-          ),
+          Center(child: MyMap('')),
         ],
       ),
       bottomNavigationBar: StreamBuilder<Object>(
@@ -56,6 +55,8 @@ class _BottomBarPageState extends State<BottomBarPage> {
                 FancyBottomNavigationItem(
                     icon: Icon(Icons.home), title: Text('Home')),
                 FancyBottomNavigationItem(
+                    icon: Icon(Icons.route_rounded), title: Text('Routes')),
+                FancyBottomNavigationItem(
                     icon: Icon(Icons.notifications_active),
                     title: Text(
                       'Notifications',
@@ -63,8 +64,6 @@ class _BottomBarPageState extends State<BottomBarPage> {
                     )),
                 FancyBottomNavigationItem(
                     icon: Icon(Icons.history), title: Text('History')),
-                // FancyBottomNavigationItem(
-                //     icon: Icon(Icons.list_sharp), title: Text('About')),
                 // FancyBottomNavigationItem(
                 //     icon: Icon(Icons.abc), title: Text("text"))
               ],

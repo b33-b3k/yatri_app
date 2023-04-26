@@ -27,6 +27,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _isSigningIn = true;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -52,6 +54,12 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Container(
                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                child: Image(
+                  image: const AssetImage('lib/assets/images/login.png'),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                 child: Row(
                   children: const [
                     Text(
@@ -67,8 +75,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
+              //image
               textfield(
                 hinttext: 'Email',
                 Controller: emailController,
@@ -106,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                             context, SlideRightRoute(page: HomePage()));
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                              content: Text("User registered successfully")),
+                              content: Text("Logged in successfully")),
                         );
                       } else {
                         Navigator.pushNamed(context, '/verify');
@@ -147,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                             context, SlideRightRoute(page: SignUp()));
                       },
                       child: const Text(
-                        "Sign up",
+                        "Register",
                         style: TextStyle(
                             color: Colors.blue,
                             textBaseline: TextBaseline.alphabetic),
@@ -176,17 +185,27 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Column(
                         children: [
-                          SignInButton(
-                            Buttons.Google,
-                            text: "Google",
-                            onPressed: () async {
-                              await signInWithGoogle();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MapApp()));
-                            },
-                          ),
+                          SignInButton(Buttons.Google, text: "Google",
+                              onPressed: () async {
+                            setState(() {
+                              _isSigningIn = true;
+                            });
+
+                            User? user = await Authentication.signInWithGoogle(
+                                context: context);
+
+                            setState(() {
+                              _isSigningIn = false;
+                            });
+
+                            if (user != null) {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) => HomePage(),
+                                ),
+                              );
+                            }
+                          }),
                           const SizedBox(
                             height: 10,
                           ),

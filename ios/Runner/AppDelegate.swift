@@ -20,7 +20,7 @@ _ application: UIApplication,
 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
 ) -> Bool {
 GeneratedPluginRegistrant.register(with: self)
-GMSServices.provideAPIKey()// api key here
+GMSServices.provideAPIKey("AIzaSyCR-06fB2gAIXUCqqzrBEqM5Tbt7wXQg3w")// api key here
 return super.application(application, didFinishLaunchingWithOptions: launchOptions)
 }
 }

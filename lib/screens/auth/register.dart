@@ -69,7 +69,13 @@ class _SignUpState extends State<SignUp> {
               //center
 
               Container(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
+                //image
+
+                child: Image.asset('lib/assets/images/signup.png',
+                    height: 300, width: double.infinity),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
                 child: Row(
                   children: const [
                     Text(
@@ -82,6 +88,21 @@ class _SignUpState extends State<SignUp> {
                   ],
                 ),
               ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Row(
+                  children: const [
+                    Text(
+                      "Create an account to continue",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),
+
               // textfield(Controller: userNameController, hinttext: 'Name'),
               textfield(
                 Controller: _emailController,
@@ -146,59 +167,59 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ),
-              Container(
-                child: Column(
-                  children: [
-                    Divider(
-                      color: Colors.black,
-                      thickness: 1,
-                      indent: 20,
-                      endIndent: 20,
-                    ),
-                    Text("Or Sign Up with",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w100,
-                        )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Column(
-                      children: [
-                        SignInButton(
-                          Buttons.Google,
-                          text: "Google",
-                          onPressed: () async {
-                            await signInWithGoogle().then((result) {
-                              if (result != null) {
-                                Navigator.push(
-                                    context, SlideRightRoute(page: HomePage()));
-                              }
-                            });
-                          },
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        //facebook
-                        SignInButton(Buttons.Facebook,
-                            text: " Facebook",
-                            padding: EdgeInsets.all(10),
-                            onPressed: () {}
-                            // onPressed: () async {
-                            //   await signInWithFacebook().then((result) {
-                            //     if (result != null) {
-                            //       Navigator.push(
-                            //           context, SlideRightRoute(page: HomePage()));
-                            //     }
-                            //   });
-                            // },
-                            ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   child: Column(
+              //     children: [
+              //       Divider(
+              //         color: Colors.black,
+              //         thickness: 1,
+              //         indent: 20,
+              //         endIndent: 20,
+              //       ),
+              //       Text("Or Sign Up with",
+              //           style: TextStyle(
+              //             fontSize: 15,
+              //             fontWeight: FontWeight.w100,
+              //           )),
+              //       SizedBox(
+              //         height: 20,
+              //       ),
+              //       // Column(
+              //       //   children: [
+              //       //     SignInButton(
+              //       //       Buttons.Google,
+              //       //       text: "Google",
+              //       //       onPressed: () async {
+              //       //         await signInWithGoogle().then((result) {
+              //       //           if (result != null) {
+              //       //             Navigator.push(
+              //       //                 context, SlideRightRoute(page: HomePage()));
+              //       //           }
+              //       //         });
+              //       //       },
+              //       //     ),
+              //       //     SizedBox(
+              //       //       height: 20,
+              //       //     ),
+              //       //     //facebook
+              //       //     SignInButton(Buttons.Facebook,
+              //       //         text: " Facebook",
+              //       //         padding: EdgeInsets.all(10),
+              //       //         onPressed: () {}
+              //       //         // onPressed: () async {
+              //       //         //   await signInWithFacebook().then((result) {
+              //       //         //     if (result != null) {
+              //       //         //       Navigator.push(
+              //       //         //           context, SlideRightRoute(page: HomePage()));
+              //       //         //     }
+              //       //         //   });
+              //       //         // },
+              //       //         ),
+              //       //   ],
+              //       // ),
+              //     ],
+              //   ),
+              // ),
               Row(
                 //make a text button to login
                 mainAxisAlignment: MainAxisAlignment.center,

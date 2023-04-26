@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yatri_app/components/appBar.dart';
 import 'package:yatri_app/main.dart';
+import 'package:yatri_app/screens/auth/forgotpass.dart';
+import 'package:yatri_app/screens/newpassword.dart';
 import 'auth/login.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -47,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
                       const CircleAvatar(
                         radius: 100,
                         backgroundImage: NetworkImage(
-                            'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F1.jpg?alt=media'),
+                            'https://instagram.fktm16-1.fna.fbcdn.net/v/t51.2885-15/250685273_4642429349174040_194915824605885135_n.jpg?stp=dst-jpg_e35_p1080x1080&_nc_ht=instagram.fktm16-1.fna.fbcdn.net&_nc_cat=100&_nc_ohc=Byldtqae1mUAX-kUgbD&edm=ALQROFkBAAAA&ccb=7-5&ig_cache_key=MjY5NTk4MTUwMTc0NzcxNTE0Mg%3D%3D.2-ccb7-5&oh=00_AfBRQRbJO_NY36_Y0xEhqcisUabKNVtruRpfLayVG2tnOA&oe=6434DD63&_nc_sid=30a2ef'),
                       ),
                       const Divider(),
                       Container(
@@ -81,7 +83,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              const ListTile(
+              ListTile(
                 leading: Icon(Icons.person),
                 title: Text('Personal Information'),
                 trailing: Icon(Icons.arrow_forward_ios),
@@ -95,13 +97,20 @@ class ProfileScreen extends StatelessWidget {
                 //   );
                 // }
               ),
-              const ListTile(
-                leading: Icon(Icons.lock),
-                title: Text('Change Password'),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                ),
-              ),
+              ListTile(
+                  leading: Icon(Icons.lock),
+                  title: Text('Change Password'),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ForgotPassword(),
+                      ),
+                    );
+                  }),
               const ListTile(
                 leading: Icon(Icons.settings),
                 title: Text('Settings'),
@@ -119,6 +128,9 @@ class ProfileScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
+                  //firebase logout
+                  auth.signOut();
+
                   Navigator.popAndPushNamed(context, '/login');
                 },
                 child: const Text(
