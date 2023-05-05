@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:yatri_app/screens/auth/homepage.dart';
-import 'package:yatri_app/screens/auth/login.dart';
-import 'package:yatri_app/screens/mapApp.dart';
+import 'package:yatri_app/screens/auth/users/homepage.dart';
+import 'package:yatri_app/screens/auth/users/login.dart';
+import 'package:yatri_app/screens/maps/mapApp.dart';
 import 'package:yatri_app/screens/welcome.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen>
       const Duration(seconds: 3),
       () => Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => LoginPage(),
+          builder: (context) => WelcomePage(),
           //edit garna baki
         ),
       ),

@@ -60,6 +60,12 @@ dependencies:
   google_maps_flutter_web: ^0.4.0+8
   flutter_polyline_points: ^1.0.0
   google_maps_routes: ^1.1.2
+  firebase_storage: ^11.1.1
+  image_picker: ^0.8.7+4
+  google_maps_webservice: ^0.0.19
+  flutter_google_places: ^0.3.0
+  geolocator: ^9.0.2
+  floating_bottom_navigation_bar: ^1.5.2
 
 dev_dependencies:
   flutter_test:

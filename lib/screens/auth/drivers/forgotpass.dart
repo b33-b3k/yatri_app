@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:yatri_app/components/appBar.dart';
 import 'package:yatri_app/components/textfield.dart';
 import 'package:yatri_app/main.dart';
+import 'package:yatri_app/screens/auth/users/homepage.dart';
 
 TextEditingController forgotemailController = TextEditingController();
 
@@ -10,25 +12,13 @@ class ForgotPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Saha-Yatri',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-            textAlign: TextAlign.center),
-        //make a profile button on the right side
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              Navigator.pushNamed(context, '/profile');
-            },
-          ),
-        ],
-        backgroundColor: Colors.transparent,
+      appBar: ApppBar(
+        context,
+        () {
+          Navigator.pop(
+            context,
+          );
+        },
       ),
 
       //homepage
@@ -37,6 +27,7 @@ class ForgotPassword extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset("lib/assets/images/forgotpass.png"),
             const Text(
               'Forgot Password',
               style: TextStyle(
@@ -53,8 +44,8 @@ class ForgotPassword extends StatelessWidget {
               'Enter your email address and we will send you a link to reset your password',
               style: TextStyle(
                 fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+                fontWeight: FontWeight.normal,
+                color: Colors.grey,
               ),
               textAlign: TextAlign.center,
             ),

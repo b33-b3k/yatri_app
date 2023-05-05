@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:yatri_app/components/googleSignIn.dart';
@@ -13,11 +15,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yatri_app/main.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:yatri_app/screens/auth/homepage.dart';
-import 'package:yatri_app/screens/auth/register.dart';
-import 'package:yatri_app/screens/mapApp.dart';
+import 'package:yatri_app/screens/auth/users/homepage.dart';
+import 'package:yatri_app/screens/auth/users/register.dart';
+import 'package:yatri_app/screens/maps/mapApp.dart';
 
-import '../../components/button.dart';
+import '../../../components/button.dart';
+import '../../welcome.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -28,6 +31,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _isSigningIn = true;
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
 
   @override
   void initState() {
@@ -41,7 +50,23 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     passwordController.dispose();
+    userNameController.dispose();
+
     super.dispose();
+  }
+
+  final CollectionReference _usersRef =
+      FirebaseFirestore.instance.collection('Users');
+
+  Future<void> addUserToDatabase(String uid, String name, String email) async {
+    try {
+      await _usersRef.doc(uid).set({
+        'name': name,
+        'email': email,
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -99,16 +124,30 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.black),
                 child: TextButton(
                   onPressed: () async {
+                    final name = userNameController.text;
                     final email = emailController.text;
                     final password = passwordController.text;
+                    //userid
+                    // FirebaseFirestore.instance
+                    //     .collection('Users')
+                    //     .doc(user!.uid)
+                    //     .set({
+                    //   'name': "$name",
+                    //   'email': '$email',
+                    // });
 
                     try {
-                      await FirebaseAuth.instance.signInWithEmailAndPassword(
-                          email: email, password: password);
+                      credential = await FirebaseAuth.instance
+                          .signInWithEmailAndPassword(
+                              email: email, password: password);
 
-                      if (user != null && !user!.emailVerified) {
-                        await user!.sendEmailVerification();
+                      if (credential != null) {
+                        String? uid = credential?.user?.uid;
                       }
+
+                      // if (user != null && !user!.emailVerified) {
+                      //   await user!.sendEmailVerification();
+                      // }
                       //login
                       if (user!.emailVerified) {
                         Navigator.push(
@@ -118,7 +157,19 @@ class _LoginPageState extends State<LoginPage> {
                               content: Text("Logged in successfully")),
                         );
                       } else {
-                        Navigator.pushNamed(context, '/verify');
+                        AlertDialog(
+                          title: Text('Email Verification'),
+                          content: Text(
+                              'Please verify your email to continue using the app'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
                       }
                     } on FirebaseAuthException catch (e) {
                       String errorMessage;
@@ -187,47 +238,40 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           SignInButton(Buttons.Google, text: "Google",
                               onPressed: () async {
-                            setState(() {
-                              _isSigningIn = true;
-                            });
-
-                            User? user = await Authentication.signInWithGoogle(
-                                context: context);
-
-                            setState(() {
-                              _isSigningIn = false;
-                            });
-
-                            if (user != null) {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (context) => HomePage(),
-                                ),
-                              );
+                            try {
+                              await _googleSignIn.signIn();
+                            } catch (error) {
+                              print(error);
                             }
                           }),
                           const SizedBox(
                             height: 10,
                           ),
                           //facebook
-                          SignInButton(Buttons.Facebook,
-                              text: " Facebook",
-                              padding: const EdgeInsets.all(10),
-                              onPressed: () {}
-                              // onPressed: () async {
-                              //   await signInWithFacebook().then((result) {
-                              //     if (result != null) {
-                              //       Navigator.push(
-                              //           context, SlideRightRoute(page: HomePage()));
-                              //     }
-                              //   });
-                              // },
-                              ),
+                          // SignInButton(Buttons.Facebook,
+                          //     text: " Facebook",
+                          //     padding: const EdgeInsets.all(10),
+                          //     onPressed: () {}
+                          //     // onPressed: () async {
+                          //     //   await signInWithFacebook().then((result) {
+                          //     //     if (result != null) {
+                          //     //       Navigator.push(
+                          //     //           context, SlideRightRoute(page: HomePage()));
+                          //     //     }
+                          //     //   });
+                          //     // },
+                          //     ),
                         ],
                       ),
                     ],
                     //make a google sign button??
-                  ))
+                  )),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context, SlideRightRoute(page: WelcomePage()));
+                  },
+                  child: Text("Back to Welcome"))
             ],
           ),
         ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:yatri_app/screens/profile.dart';
+import 'package:yatri_app/screens/auth/users/profile.dart';
 
 AppBar ApppBar(BuildContext context, var onPressed) {
   return AppBar(

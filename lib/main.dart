@@ -3,27 +3,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:yatri_app/components/tripHistory.dart';
-import 'package:yatri_app/screens/auth/homepage.dart';
-import 'package:yatri_app/screens/auth/login.dart';
-import 'package:yatri_app/screens/mymap.dart';
-import 'package:yatri_app/screens/profile.dart';
-import 'package:yatri_app/screens/auth/register.dart';
+import 'package:yatri_app/screens/auth/users/homepage.dart';
+import 'package:yatri_app/screens/auth/users/login.dart';
+import 'package:yatri_app/screens/maps/mymap.dart';
+import 'package:yatri_app/screens/auth/users/profile.dart';
+import 'package:yatri_app/screens/auth/users/register.dart';
 import 'package:yatri_app/screens/splashscreen.dart';
 import 'package:yatri_app/screens/welcome.dart';
 import '/components/appBar.dart';
 import 'firebase_options.dart';
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
-import '/screens/mapApp.dart';
+import 'screens/maps/mapApp.dart';
 import '/components/textfield.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
-import '/screens/auth/login.dart';
-import '/screens/auth/forgotpass.dart';
-import '/screens/auth/verify.dart';
+import 'screens/auth/users/login.dart';
+import 'screens/auth/users/forgotpass.dart';
 import '/components/googleSignIn.dart';
 
 final auth = FirebaseAuth.instance;
 final user = auth.currentUser;
+UserCredential? credential;
+//set display name
+var displayName = user?.displayName;
+
+// final String? uid = user?.uid;
+
+final userName = user?.displayName;
 
 final emailtext = user?.email;
 var emailController = TextEditingController();
@@ -33,30 +39,6 @@ var confirmPassController = TextEditingController();
 final counterStateProvider = StateProvider<int>((ref) {
   return 0;
 });
-Widget getLandingPage() {
-  return StreamBuilder<User?>(
-    stream: FirebaseAuth.instance.authStateChanges(),
-    builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        // show a loading indicator while we wait for the authentication state to initialize
-        return const CircularProgressIndicator();
-      }
-      //welcome page but only for once
-      if (snapshot.connectionState == ConnectionState.none) {
-        return const WelcomePage();
-      }
-
-      if (snapshot.hasData) {
-        // user is logged in, display home page
-
-        return HomePage();
-      } else {
-        // user is not logged in, display sign-up page
-        return SignUp();
-      }
-    },
-  );
-}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -107,13 +89,12 @@ Future<void> main() async {
       ),
       colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
     ),
-    home: getLandingPage(),
+    home: HomePage(),
     routes: {
       '/mapApp': (context) => MapApp(),
-      '/forgotPass': (context) => const ForgotPass(),
+      '/forgotPass': (context) => ForgotPassword(),
       '/signUp': (context) => const SignUp(),
       '/login': (context) => const LoginPage(),
-      '/verify': (context) => const Verify(),
       '/welcome': (context) => const WelcomePage(),
       '/profile': (context) => ProfileScreen(),
       '/tripHistory': (context) => const TripHistory(),

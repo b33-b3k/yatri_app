@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
+import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 
 import 'package:yatri_app/components/appBar.dart';
 import 'package:yatri_app/components/tripHistory.dart';
-import 'package:yatri_app/screens/allroutes.dart';
-import 'package:yatri_app/screens/mapApp.dart';
-import 'package:yatri_app/screens/mymap.dart';
+import 'package:yatri_app/screens/maps/allroutes.dart';
+import 'package:yatri_app/screens/maps/mapApp.dart';
+import 'package:yatri_app/screens/maps/mymap.dart';
+import 'package:yatri_app/screens/maps/testmaps.dart';
+import 'package:yatri_app/screens/splashscreen.dart';
 
 class BottomBarPage extends StatefulWidget {
   const BottomBarPage({super.key});
@@ -34,14 +37,14 @@ class _BottomBarPageState extends State<BottomBarPage> {
         },
         controller: pageController,
         children: <Widget>[
-          Center(child: MyApp()),
+          Center(child: MapView()),
           Center(
             child: RootPage(),
           ),
           Center(
-            child: TripHistory(),
+            child: AllRoutes(),
           ),
-          Center(child: MyMap('')),
+          Center(child: TripHistory()),
         ],
       ),
       bottomNavigationBar: StreamBuilder<Object>(

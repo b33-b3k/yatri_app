@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:yatri_app/main.dart';
 import 'package:yatri_app/main.dart';
-import 'package:yatri_app/screens/auth/register.dart';
-import 'auth/login.dart';
+
+import 'auth/drivers/Dregister.dart';
+import 'auth/users/login.dart';
 
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 // main app
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import 'auth/users/register.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -25,62 +28,98 @@ class _WelcomePageState extends State<WelcomePage> {
       body: SafeArea(
         child: Center(
             child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Welcome to ",
+            const SizedBox(height: 40),
+            const Text("Welcome to ",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.normal,
                   color: Colors.black,
                 )),
-            Text(
-              "Sajha Yatayat",
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+              "Saha Yatri",
               style: TextStyle(
-                fontSize: 40,
+                fontSize: 60,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
             ),
-            SizedBox(height: 20),
-            Text("Please sign in to continue"),
+            const SizedBox(height: 20),
             Center(
-              child: Image(
-                image: AssetImage('../../lib/assets/images/busstop.jpg',
-                    package: 'yatri_app'),
+              child: Image.asset("./lib/assets/images/busstop.jpg"),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              "You are ",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.normal,
+                color: Colors.black,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  //make round
+                    //make round
 
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginPage()),
-                      );
-                    },
-                    child: Text("Login"),
-                  ),
-                ),
-                SizedBox(height: 20),
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignUp()),
+                        );
+                      },
+                      child: Container(
+                        width: 200,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.blueAccent,
+                        ),
+                        child: Center(
+                            child: Text(
+                          'Passenger',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 20),
+                        )),
+                      ),
+                    )),
+                const SizedBox(height: 20),
                 Container(
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const SignUp()),
-                      );
-                    },
-                    child: Text("Register"),
-                  ),
-                ),
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => DSignUp()),
+                        );
+                      },
+                      child: Container(
+                        width: 200,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.blueAccent,
+                        ),
+                        child: Center(
+                            child: Text(
+                          'Driver',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 20),
+                        )),
+                      ),
+                    )),
               ],
             ),
           ],

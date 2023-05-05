@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:yatri_app/components/appBar.dart';
-
-import '../../components/navbar.dart';
+import '../../../components/navbar.dart';
+import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

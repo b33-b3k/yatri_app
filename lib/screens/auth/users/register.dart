@@ -1,15 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yatri_app/components/appBar.dart';
 import 'package:yatri_app/components/textfield.dart';
+import 'package:yatri_app/components/googleSignIn.dart';
 
-import '../../components/googleSignIn.dart';
-import '../../components/transition.dart';
-import '../../main.dart';
+import '../../../components/googleSignIn.dart';
+import '../../../components/transition.dart';
+import '../../../main.dart';
 import 'homepage.dart';
 import 'login.dart';
 
@@ -21,6 +24,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
@@ -31,6 +35,20 @@ class _SignUpState extends State<SignUp> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  final CollectionReference _usersRef =
+      FirebaseFirestore.instance.collection('Users');
+
+  Future<void> addUserToDatabase(String name, String email) async {
+    try {
+      await _usersRef.doc(email).set({
+        'First Name': name,
+        'Email': email,
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> registerUser() async {
@@ -72,7 +90,7 @@ class _SignUpState extends State<SignUp> {
                 //image
 
                 child: Image.asset('lib/assets/images/signup.png',
-                    height: 300, width: double.infinity),
+                    height: 500, width: double.infinity),
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
@@ -103,7 +121,7 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
 
-              // textfield(Controller: userNameController, hinttext: 'Name'),
+              textfield(Controller: userNameController, hinttext: 'Name'),
               textfield(
                 Controller: _emailController,
                 hinttext: 'Email',
@@ -132,6 +150,9 @@ class _SignUpState extends State<SignUp> {
                   onPressed: () async {
                     final email = _emailController.text;
                     final password = _passwordController.text;
+                    //update display name
+
+                    //set email name last name to the firebase database
 
                     try {
                       final userCredentials = await FirebaseAuth.instance
@@ -141,7 +162,11 @@ class _SignUpState extends State<SignUp> {
                       );
                       final user = FirebaseAuth.instance.currentUser;
                       await user?.sendEmailVerification();
-                      Navigator.pushNamed(context, '/verify');
+                      await user?.updateDisplayName(userNameController.text);
+                      String? uid = credential?.user?.uid;
+
+                      addUserToDatabase(userNameController.text, email);
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                             content: Text("User registered successfully")),
@@ -167,59 +192,55 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ),
-              // Container(
-              //   child: Column(
-              //     children: [
-              //       Divider(
-              //         color: Colors.black,
-              //         thickness: 1,
-              //         indent: 20,
-              //         endIndent: 20,
-              //       ),
-              //       Text("Or Sign Up with",
-              //           style: TextStyle(
-              //             fontSize: 15,
-              //             fontWeight: FontWeight.w100,
-              //           )),
-              //       SizedBox(
-              //         height: 20,
-              //       ),
-              //       // Column(
-              //       //   children: [
-              //       //     SignInButton(
-              //       //       Buttons.Google,
-              //       //       text: "Google",
-              //       //       onPressed: () async {
-              //       //         await signInWithGoogle().then((result) {
-              //       //           if (result != null) {
-              //       //             Navigator.push(
-              //       //                 context, SlideRightRoute(page: HomePage()));
-              //       //           }
-              //       //         });
-              //       //       },
-              //       //     ),
-              //       //     SizedBox(
-              //       //       height: 20,
-              //       //     ),
-              //       //     //facebook
-              //       //     SignInButton(Buttons.Facebook,
-              //       //         text: " Facebook",
-              //       //         padding: EdgeInsets.all(10),
-              //       //         onPressed: () {}
-              //       //         // onPressed: () async {
-              //       //         //   await signInWithFacebook().then((result) {
-              //       //         //     if (result != null) {
-              //       //         //       Navigator.push(
-              //       //         //           context, SlideRightRoute(page: HomePage()));
-              //       //         //     }
-              //       //         //   });
-              //       //         // },
-              //       //         ),
-              //       //   ],
-              //       // ),
-              //     ],
-              //   ),
-              // ),
+
+              Container(
+                child: Column(
+                  children: [
+                    Divider(
+                      color: Colors.black,
+                      thickness: 1,
+                      indent: 20,
+                      endIndent: 20,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+
+                    // Text("Or Sign Up with",
+                    //     style: TextStyle(
+                    //       fontSize: 15,
+                    //       fontWeight: FontWeight.w100,
+                    //     )),
+                    // SizedBox(
+                    //   height: 20,
+                    // ),
+
+                    // Column(
+                    //   children: [
+                    //     SignInButton(Buttons.Google,
+                    //         text: "Google", onPressed: () {}),
+                    //     SizedBox(
+                    //       height: 20,
+                    //     ),
+                    //     //facebook
+                    //     // SignInButton(Buttons.Facebook,
+                    //     //     text: " Facebook",
+                    //     //     padding: EdgeInsets.all(10),
+
+                    //     //     onPressed: () async {
+                    //     //       await signInWithFacebook().then((result) {
+                    //     //         if (result != null) {
+                    //     //           Navigator.push(
+                    //     //               context, SlideRightRoute(page: HomePage()));
+                    //     //         }
+                    //     //       });
+                    //     //     },
+                    //     //     ),
+                    //   ],
+                    // ),
+                  ],
+                ),
+              ),
               Row(
                 //make a text button to login
                 mainAxisAlignment: MainAxisAlignment.center,
