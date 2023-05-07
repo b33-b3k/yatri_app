@@ -16,8 +16,18 @@ class MapView extends StatefulWidget {
 class _MapViewState extends State<MapView> {
   CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
   late GoogleMapController mapController;
+  //initialize current position
+  Position _currentPosition = Position(
+      longitude: 85.3240,
+      latitude: 27.7172,
+      timestamp: DateTime.now(),
+      accuracy: 0.0,
+      altitude: 0.0,
+      heading: 0.0,
+      speed: 0.0,
+      speedAccuracy: 0.0);
+  //initialize address
 
-  late Position _currentPosition;
   String _currentAddress = '';
 
   final startAddressController = TextEditingController();
@@ -56,7 +66,7 @@ class _MapViewState extends State<MapView> {
         },
         controller: controller,
         focusNode: focusNode,
-        decoration: new InputDecoration(
+        decoration: InputDecoration(
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           labelText: label,
@@ -93,6 +103,7 @@ class _MapViewState extends State<MapView> {
         .then((Position position) async {
       setState(() {
         _currentPosition = position;
+
         print('CURRENT POS: $_currentPosition');
         mapController.animateCamera(
           CameraUpdate.newCameraPosition(
@@ -299,6 +310,7 @@ class _MapViewState extends State<MapView> {
   @override
   void initState() {
     super.initState();
+
     _getCurrentLocation();
   }
 
@@ -521,6 +533,9 @@ class _MapViewState extends State<MapView> {
                           child: Icon(Icons.my_location),
                         ),
                         onTap: () {
+                          // Show current location in the map update
+                          // the camera position
+
                           mapController.animateCamera(
                             CameraUpdate.newCameraPosition(
                               CameraPosition(

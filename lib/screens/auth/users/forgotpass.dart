@@ -12,13 +12,8 @@ class ForgotPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ApppBar(
-        context,
-        () {
-          Navigator.pop(
-            context,
-          );
-        },
+      appBar: AppBar(
+        title: const Text('Change Password'),
       ),
 
       //homepage
@@ -52,6 +47,7 @@ class ForgotPassword extends StatelessWidget {
             textfield(
               Controller: forgotemailController,
               hinttext: 'Email',
+              labeltext: null,
             ),
             const SizedBox(
               height: 20,

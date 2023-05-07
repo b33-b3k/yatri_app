@@ -7,12 +7,13 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yatri_app/components/appBar.dart';
+import 'package:yatri_app/components/dropdown.dart';
 import 'package:yatri_app/components/textfield.dart';
 import 'package:yatri_app/components/googleSignIn.dart';
 
 import '../../../components/transition.dart';
+import '../../../databasefunctions.dart';
 import '../../../main.dart';
-import 'homepage.dart';
 import 'Dlogin.dart';
 
 class DSignUp extends StatefulWidget {
@@ -31,6 +32,8 @@ class _DSignUpState extends State<DSignUp> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController _busCompanyController = TextEditingController();
   final TextEditingController _busColorController = TextEditingController();
+  final TextEditingController _busNameController = TextEditingController();
+  final TextEditingController _busCapacity = TextEditingController();
 
   @override
   void dispose() {
@@ -118,26 +121,66 @@ class _DSignUpState extends State<DSignUp> {
                 ),
               ),
 
-              textfield(Controller: userNameController, hinttext: 'Name'),
+              textfield(
+                Controller: userNameController,
+                hinttext: 'Enter your name',
+                labeltext: 'Name',
+              ),
               textfield(
                 Controller: _emailController,
-                hinttext: 'Email',
+                hinttext: 'Enter your email',
+                labeltext: 'Email',
               ),
               textfield(
                 Controller: _passwordController,
-                hinttext: 'Password',
+                hinttext: 'Enter your Password',
                 obscureText: true,
+                labeltext: 'Password',
               ),
               textfield(
                 Controller: confirmPassController,
                 hinttext: 'Confirm Password',
                 obscureText: true,
+                labeltext: 'Confirm Password',
               ),
-              textfield(Controller: phoneController, hinttext: 'Phone number'),
-              textfield(Controller: _busColorController, hinttext: "Bus Color"),
               textfield(
-                  Controller: _busCompanyController, hinttext: "Bus Company"),
-
+                Controller: phoneController,
+                hinttext: 'Phone number',
+                labeltext: 'PhoneNumber',
+              ),
+              textfield(
+                Controller: _busNameController,
+                hinttext: "Bus Number",
+                labeltext: 'Bus Number',
+              ),
+              textfield(
+                Controller: _busColorController,
+                hinttext: "Bus Color",
+                labeltext: 'BusColor',
+              ),
+              textfield(
+                Controller: _busCompanyController,
+                hinttext: "Bus Company",
+                labeltext: 'BusCompany',
+              ),
+              textfield(
+                Controller: _busCapacity,
+                hinttext: "Bus Capacity",
+                labeltext: 'BusCapacity',
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              //dropdown menu for selection??
+              RouteDropdown(
+                  labelText: 'Route',
+                  hintText: 'Select a route',
+                  routes: ['Route 1', 'Route 2', 'Route 3', 'Route 4'],
+                  onValueChanged: (String value) {
+                    setState(() {
+                      var _selectedRoute = value;
+                    });
+                  }),
               SizedBox(
                 height: 20,
               ),
@@ -166,7 +209,7 @@ class _DSignUpState extends State<DSignUp> {
                       await user?.sendEmailVerification();
                       await user?.updateDisplayName(userNameController.text);
                       String? uid = credential?.user?.uid;
-                      await addUserDetails(
+                      await addDriverDetails(
                         userNameController.text,
                         _emailController.text,
                         phoneController.text,
@@ -181,6 +224,12 @@ class _DSignUpState extends State<DSignUp> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                             content: Text("User registered successfully")),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DLoginPage(),
+                        ),
                       );
                     } on FirebaseAuthException catch (e) {
                       String errorMessage;
@@ -280,23 +329,3 @@ class _DSignUpState extends State<DSignUp> {
 
 //firebase firestore function to update the database for driver
 
-Future<void> addUserDetails(
-  String firstName,
-  String email,
-  String phoneNumber,
-  String busColor,
-  String busCompany,
-) async {
-  await FirebaseFirestore.instance
-      .collection('Drivers')
-      .doc('bibek')
-      .set({
-        'First Name': firstName,
-        'Email': email,
-        'Bus Company': busCompany,
-        'Bus Color': busColor,
-        'Phone Number': phoneNumber,
-      })
-      .then((value) => print('User Added'))
-      .catchError((error) => print('Failed to add user: $error'));
-}

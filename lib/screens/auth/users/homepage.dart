@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.person),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/profile');
+                  Navigator.pushNamed(context, '/dprofile');
                 },
               ),
             ],

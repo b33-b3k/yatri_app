@@ -104,13 +104,15 @@ class _LoginPageState extends State<LoginPage> {
               ),
               //image
               textfield(
-                hinttext: 'Email',
+                hinttext: 'Enter your Email',
                 Controller: emailController,
+                labeltext: "Email",
               ),
               textfield(
                 hinttext: 'Password',
                 Controller: passwordController,
                 obscureText: true,
+                labeltext: 'Password',
               ),
               const SizedBox(
                 height: 40,

@@ -2,7 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:yatri_app/components/photoUploader.dart';
 import 'package:yatri_app/components/tripHistory.dart';
+import 'package:yatri_app/screens/auth/drivers/Dprofile.dart';
+import 'package:yatri_app/screens/auth/drivers/Dregister.dart';
 import 'package:yatri_app/screens/auth/users/homepage.dart';
 import 'package:yatri_app/screens/auth/users/login.dart';
 import 'package:yatri_app/screens/maps/mymap.dart';
@@ -24,6 +27,7 @@ import '/components/googleSignIn.dart';
 final auth = FirebaseAuth.instance;
 final user = auth.currentUser;
 UserCredential? credential;
+
 //set display name
 var displayName = user?.displayName;
 
@@ -34,11 +38,26 @@ final userName = user?.displayName;
 final emailtext = user?.email;
 var emailController = TextEditingController();
 var passwordController = TextEditingController();
+final TextEditingController phoneController = TextEditingController();
+final TextEditingController busCompanyController = TextEditingController();
+final TextEditingController busColorController = TextEditingController();
+final TextEditingController busNumberController = TextEditingController();
+final TextEditingController busCapacity = TextEditingController();
+
 var userNameController = TextEditingController();
 var confirmPassController = TextEditingController();
 final counterStateProvider = StateProvider<int>((ref) {
   return 0;
 });
+
+//widget get landing page
+Widget getLandingPage() {
+  if (auth.currentUser != null) {
+    return const HomePage();
+  } else {
+    return const WelcomePage();
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -100,6 +119,8 @@ Future<void> main() async {
       '/tripHistory': (context) => const TripHistory(),
       '/home': (context) => const HomePage(),
       '/splash': (context) => const SplashScreen(),
+      '/dsignUp': (context) => const DSignUp(),
+      '/dprofile': (context) => DProfileScreen(),
 
       //verify null
     },
@@ -108,4 +129,3 @@ Future<void> main() async {
 }
 
 //email
-

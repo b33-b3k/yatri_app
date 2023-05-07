@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class textfield extends StatefulWidget {
-  const textfield({
+  textfield({
     Key? key,
     required TextEditingController Controller,
     required this.hinttext,
+    required this.labeltext,
     this.obscureText = false,
   })  : _Controller = Controller,
         super(key: key);
@@ -12,6 +13,7 @@ class textfield extends StatefulWidget {
   final TextEditingController _Controller;
   final String hinttext;
   final bool obscureText;
+  final String? labeltext;
 
   @override
   _textfieldState createState() => _textfieldState();
@@ -47,6 +49,7 @@ class _textfieldState extends State<textfield> {
                     fontWeight: FontWeight.w100,
                     color: Colors.grey,
                   ),
+                  labelText: widget.labeltext,
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(15.0),

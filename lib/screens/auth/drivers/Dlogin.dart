@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_signin_button/button_list.dart';
@@ -45,6 +45,8 @@ class _DLoginPageState extends State<DLoginPage> {
 
     emailController = TextEditingController();
     passwordController = TextEditingController();
+    final user = auth.currentUser;
+
     super.initState();
   }
 
@@ -54,20 +56,6 @@ class _DLoginPageState extends State<DLoginPage> {
     userNameController.dispose();
 
     super.dispose();
-  }
-
-  final CollectionReference _usersRef =
-      FirebaseFirestore.instance.collection('Users');
-
-  Future<void> addUserToDatabase(String uid, String name, String email) async {
-    try {
-      await _usersRef.doc(uid).set({
-        'name': name,
-        'email': email,
-      });
-    } catch (e) {
-      print(e);
-    }
   }
 
   @override
@@ -107,11 +95,13 @@ class _DLoginPageState extends State<DLoginPage> {
               textfield(
                 hinttext: 'Email',
                 Controller: emailController,
+                labeltext: "Email",
               ),
               textfield(
                 hinttext: 'Password',
                 Controller: passwordController,
                 obscureText: true,
+                labeltext: "Password",
               ),
               const SizedBox(
                 height: 40,
@@ -129,15 +119,49 @@ class _DLoginPageState extends State<DLoginPage> {
                     final email = emailController.text;
                     final password = passwordController.text;
                     //userid
-                    // FirebaseFirestore.instance
-                    //     .collection('Users')
-                    //     .doc(user!.uid)
-                    //     .set({
-                    //   'name': "$name",
-                    //   'email': '$email',
-                    // });
 
                     try {
+                      FirebaseFirestore.instance
+                          .collection('Drivers')
+                          .where('Email', isEqualTo: email)
+                          .get()
+                          .then((QuerySnapshot querySnapshot) {
+                        if (querySnapshot.docs.isNotEmpty) {
+                          // User found in the Firestore collection
+                          var userData = querySnapshot.docs.first.data();
+
+                          // User is not a driver
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Error'),
+                              content: Text(
+                                  'You are not authorized to login as a driver.'),
+                              actions: [
+                                ElevatedButton(
+                                  child: Text('OK'),
+                                  onPressed: () => Navigator.pop(context),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          // User not found in the Firestore collection
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Error'),
+                              content: Text('User not found.'),
+                              actions: [
+                                ElevatedButton(
+                                  child: Text('OK'),
+                                  onPressed: () => Navigator.pop(context),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      });
                       credential = await FirebaseAuth.instance
                           .signInWithEmailAndPassword(
                               email: email, password: password);

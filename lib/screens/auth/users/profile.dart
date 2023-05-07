@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 
+import '../../../components/photoUploader.dart';
 import 'login.dart';
 
 FirebaseStorage storage = FirebaseStorage.instance;
@@ -193,6 +194,29 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     emailController.text = '$emailtext';
   }
 
+  String? _uploadedPhotoUrl;
+  final PhotoUploader _photoUploader = PhotoUploader();
+
+  void _capturePhotoAndUpload() async {
+    final fileName = await _photoUploader.capturePhotoAndUploadToFirestore();
+    if (fileName != null) {
+      final url = await _photoUploader.getPhotoUrl(fileName);
+      setState(() {
+        _uploadedPhotoUrl = url.toString();
+      });
+    }
+  }
+
+  void _selectPhotoAndUpload() async {
+    final fileName = await _photoUploader.selectPhotoAndUploadToFirestore();
+    if (fileName != null) {
+      final url = await _photoUploader.getPhotoUrl(fileName);
+      setState(() {
+        _uploadedPhotoUrl = url.toString();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -204,11 +228,12 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"),
-              radius: 100,
-            ),
+            _uploadedPhotoUrl != null
+                ? Image.network(
+                    _uploadedPhotoUrl!,
+                    height: 200,
+                  )
+                : Container(),
             const SizedBox(height: 16),
             TextField(
               controller: userNameController,

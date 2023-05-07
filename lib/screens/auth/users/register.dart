@@ -121,20 +121,27 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
 
-              textfield(Controller: userNameController, hinttext: 'Name'),
+              textfield(
+                Controller: userNameController,
+                hinttext: 'Name',
+                labeltext: null,
+              ),
               textfield(
                 Controller: _emailController,
                 hinttext: 'Email',
+                labeltext: null,
               ),
               textfield(
                 Controller: _passwordController,
                 hinttext: 'Password',
                 obscureText: true,
+                labeltext: null,
               ),
               textfield(
                 Controller: confirmPassController,
                 hinttext: 'Confirm Password',
                 obscureText: true,
+                labeltext: null,
               ),
               SizedBox(
                 height: 20,
