@@ -30,8 +30,9 @@ Saha-yatri is a bus management app built using Flutter. It helps users to book b
 
 ## Screenshots
 
-![Screenshot 1](/screenshots/screenshot1.png)
-![Screenshot 2](/screenshots/screenshot2.png)
+![Screenshot 1](https://github.com/b33-b3k/yatri_app/blob/master/flutter_mapss.jpg)
+![Screenshot 2](https://github.com/b33-b3k/yatri_app/blob/master/fluttermap.jpg)
+![Screenshot 2]([/screenshots/screenshot2.png](https://github.com/b33-b3k/yatri_app/blob/master/fluttermapsss.jpg))
 
 ## Technologies Used
 
